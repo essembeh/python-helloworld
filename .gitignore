@@ -1,0 +1,21 @@
+# Dev tools
+/devenv/
+/venv/
+
+# Python
+__pycache__
+*.pyc
+/src/*.egg-info/
+/build/
+/dist/
+
+# Generated
+/flake-report/
+/coverage-report/
+/tests.xml
+/.coverage
+
+# Vscodium
+/.vscode/*
+!/.vscode/settings.json
+
