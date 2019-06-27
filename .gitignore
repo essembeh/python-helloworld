@@ -1,6 +1,6 @@
 # Dev tools
-/devenv/
-/venv/
+/devenv
+/venv
 
 # Python
 __pycache__
