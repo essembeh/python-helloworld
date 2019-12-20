@@ -1,7 +1,7 @@
 {
     "files.exclude": {
-        "devenv/": true,
         "venv/": true,
+        ".tox/": true,
         "**/__pycache__/": true,
     },
     "python.pythonPath": "venv/bin/python",
@@ -9,10 +9,6 @@
         "${workspaceFolder}/src/"
     ],
     "python.formatting.provider": "black",
-    "python.formatting.blackArgs": [
-        "-l",
-        "160"
-    ],
     "editor.formatOnSave": true,
     "python.linting.pylintEnabled": false,
     "python.linting.flake8Enabled": true,

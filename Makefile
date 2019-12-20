@@ -1,41 +1,40 @@
-PYTHON_VERSION := 3.7.3
+.PHONY: build install build publish publish-test docker-image docker-test
 
-.PHONY: install watch publish clean test coverage flake8
+all: build
 
-all: clean test coverage flake8
-
-devenv: 
-	./tools/python-install.sh install $(PYTHON_VERSION) devenv/
-
-venv: requirements.txt
-	virtualenv -p devenv/bin/python3 venv --no-site-packages
+venv: requirements.txt requirements-dev.txt 
+	virtualenv -p python3 venv --no-site-packages
 	./venv/bin/pip install -r requirements.txt
+	./venv/bin/pip install -r requirements-dev.txt
 	touch venv
-
-clean:
-	rm -rf flake-report coverage-report .coverage tests.xml
-
-flake8:
-	flake8 src/
-
-coverage:
-	pytest --cov=helloworld src/
-	coverage html --directory=coverage-report
-	coverage report
-
-tests: 
-	pytest --junitxml=tests.xml src/
 
 install:
 	test -n "$(VIRTUAL_ENV)"
-	python3 setup.py install
-	#python3 setup.py install_data
+	pip install -e .
 
-watch:
+build: venv
 	test -n "$(VIRTUAL_ENV)"
-	rerun  -d src -p "*.py" -x "make install >/dev/null 2>&1"
-
-publish:
-	test -n "$(VIRTUAL_ENV)"
+	rm -rf dist/
 	python3 setup.py sdist bdist_wheel
+
+publish: build
 	twine upload --repository-url https://test.pypi.org/legacy/ dist/*
+
+publish-test: build
+	twine upload --repository-url https://upload.pypi.org/legacy/ dist/*
+	
+
+docker-image:
+	docker build \
+		--build-arg APT_EXTRA_PACKAGES="" \
+		-t essembeh/multipy:latest \
+		https://github.com/essembeh/multipy.git
+
+docker-test:
+	docker run \
+		--rm \
+		-it \
+		--volume $(PWD):/src:ro \
+		-e GIT_CLEAN=1 \
+		-e TOXENV -e TOX_SKIP_ENV \
+		essembeh/multipy:latest -- -x
