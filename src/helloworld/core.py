@@ -1,7 +1,6 @@
-class User:
-    def __init__(self, name: str):
-        self.__name = name
+from dataclasses import dataclass
 
-    @property
-    def name(self):
-        return self.__name
+
+@dataclass
+class User:
+    name: str

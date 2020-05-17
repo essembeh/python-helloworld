@@ -1,28 +1,35 @@
-.PHONY: build install build publish publish-test docker-image docker-test
+.PHONY: build install build publish publish-test clean test docker-image docker-test
 
 all: build
 
+clean:
+	rm -vfr dist/ build/
+
 venv: requirements.txt requirements-dev.txt 
-	python3 -m virtualenv -p python3 venv --no-site-packages
-	./venv/bin/pip install -r requirements.txt
-	./venv/bin/pip install -r requirements-dev.txt
+	test -d venv || virtualenv -p python3 venv --no-site-packages
+	bash -c "source venv/bin/activate && \
+		pip install -r requirements.txt -r requirements-dev.txt"
 	touch venv
 
-install:
-	test -n "$(VIRTUAL_ENV)"
-	pip install -e .
+install: venv
+	bash -c "source venv/bin/activate && \
+		pip install -e ."
 
-build: venv
-	test -n "$(VIRTUAL_ENV)"
-	rm -rf dist/
-	python3 setup.py sdist bdist_wheel
+test: venv
+	bash -c "source venv/bin/activate && \
+		tox"
 
-publish: build
-	twine upload --repository-url https://test.pypi.org/legacy/ dist/*
+build: clean test
+	bash -c "source venv/bin/activate && \
+		python3 setup.py sdist bdist_wheel"
 
 publish-test: build
-	twine upload --repository-url https://upload.pypi.org/legacy/ dist/*
-	
+	bash -c "source venv/bin/activate && \
+		twine upload --repository-url https://test.pypi.org/legacy/ dist/*"
+
+publish: build
+	bash -c "source venv/bin/activate && \
+		twine upload --repository-url https://upload.pypi.org/legacy/ dist/*"
 
 docker-image:
 	docker build \
