@@ -7,18 +7,26 @@ Basically, you can clone this repository and run `sed -i 's/helloworld/YOURPROJE
 
 # Install
 
-Install latest version using pip
+Install latest version from repository using pip
 ```sh
 $ pip3 install --user git+https://github.com/essembeh/python-helloworld
 ```
 
 Or setup a development environment
 ```sh
+# Clone the source
 $ git clone https://github.com/essembeh/python-helloworld
 $ cd python-helloworld
+
+# Build the virtualenv
 $ make venv
+# Load the venv
 $ source venv/bin/activate
+
+# Install your app in the venv
 (venv) $ pip install -e .
+# equivalent
+(venv) $ make install
 ```
 
 
@@ -36,6 +44,6 @@ Some usefull commands:
 - `make venv` to create or update the virtualenv in the folder named `venv`
 - `make install`, simple alias to `pip install -e .` to install your app in the virtualenv in development mode, ie: no need to reinstall when the code changes
 - `pytest` to run the tests
-- `tox` to run all the test with coverage and flake8 analysis
+- `tox` to run all the test with coverage and flake8 analysis (equivalent to `make test`)
 - `make docker-test` to run *tox* in a docker image containing all supported Python versions, see [multipy](https://github.com/essembeh/multipy)
 - Finally the `make publish` (or `make publish-test`) to build and publish the project on [PyPI](https://pypi.org/).
