@@ -1,4 +1,0 @@
-# Used by helloworld
-pytput
-# Example with condition
-dataclasses; python_version<'3.7'

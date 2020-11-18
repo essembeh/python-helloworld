@@ -1,15 +1,11 @@
 # Python
 __pycache__
 *.pyc
-/src/*.egg-info/
-/build/
-/dist/
-/.eggs/
 
 # Generated
-/venv/
-/.tox/
-/.coverage*
+/poetry.lock
+/.coverage
+/dist/
 
 # IDE
 /.vscode/*

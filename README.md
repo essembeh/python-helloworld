@@ -7,43 +7,45 @@ Basically, you can clone this repository and run `sed -i 's/helloworld/YOURPROJE
 
 # Install
 
-Install latest version from repository using pip
+This project uses [Poetry](https://python-poetry.org), ensure you have *Poetry* installed
+
 ```sh
-$ pip3 install --user git+https://github.com/essembeh/python-helloworld
+$ pip3 install --user -U poetry
 ```
 
-Or setup a development environment
+Clone the project
 ```sh
-# Clone the source
 $ git clone https://github.com/essembeh/python-helloworld
 $ cd python-helloworld
-
-# Build the virtualenv
-$ make venv
-# Load the venv
-$ source venv/bin/activate
-
-# Install your app in the venv
-(venv) $ pip install -e .
-# equivalent
-(venv) $ make install
 ```
 
+To setup the *virtualenv*:
+```sh
+$ poetry install # to install app with dev dependencies
+$ poetry install --no-dev # to install app without dev depdencies
+$ poetry shell
+(venv) $ helloworld --help
+```
 
-## Coding and Testing
+To run the app:
+```sh
+$ poetry run helloworld --help
+```
 
-[VSCodium](https://github.com/VSCodium/vscodium) is a good editor and the Python support is pretty nice. 
+To run the tests:
+```sh
+$ poetry run pytest tests
+$ poetry run pytest --cov=helloworld tests # To get the coverage
+```
+
+## Tools
+
+[Poetry](https://python-poetry.org), a very useful tool to avoid boilerplate code (`setup.py`, `requirements.txt`, `requirements-dev.txt` ...)
+
+[VSCodium](https://github.com/VSCodium/vscodium): a light IDE editor supporting Python with an extension.
 Some workspace settings in `.vscode/settings.json` are configured for example to work with the *virtual environment*.
 
-[Flake8](https://pypi.org/project/flake8/) is configured with some plugins (in `requirements-dev.txt`) to report many warnings/errors (and VSCodium is configured to show them).
+[Pylint](https://www.pylint.org/): to report many warnings/errors (and VSCodium is configured to show them).
 
-[Black](https://pypi.org/project/black/) code formatter will automatically format source code on save using *VSCodium*.
+[Black](https://pypi.org/project/black/): a strict code formatter that automatically format source code on save using *VSCodium*.
 
-
-Some usefull commands:
-- `make venv` to create or update the virtualenv in the folder named `venv`
-- `make install`, simple alias to `pip install -e .` to install your app in the virtualenv in development mode, ie: no need to reinstall when the code changes
-- `pytest` to run the tests
-- `tox` to run all the test with coverage and flake8 analysis (equivalent to `make test`)
-- `make docker-test` to run *tox* in a docker image containing all supported Python versions, see [multipy](https://github.com/essembeh/multipy)
-- Finally the `make publish` (or `make publish-test`) to build and publish the project on [PyPI](https://pypi.org/).
