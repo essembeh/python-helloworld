@@ -19,6 +19,7 @@ colorama = ""
 
 
 [tool.poetry.dev-dependencies]
+black = ""
 pylint = ""
 pytest = ""
 pytest-xdist = ""
