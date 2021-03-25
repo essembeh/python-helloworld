@@ -24,6 +24,7 @@ colorama = ""
 black = ""
 pylint = ""
 pytest = ""
+pytest-dotenv = ""
 pytest-cov = ""
 rope = ""
 
