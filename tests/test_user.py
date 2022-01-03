@@ -1,6 +1,6 @@
 import unittest
 
-from helloworld.core import User
+from helloworld.model import User
 
 
 class TestUser(unittest.TestCase):

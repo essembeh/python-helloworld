@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "helloworld"
-version = "0.1.2"
+version = "0.1.0"
 description = "Just a sample project"
 homepage = "https://github.com/essembeh/python-helloworld"
 authors = ["Sébastien MB <seb@essembeh.org>"]
@@ -13,10 +13,7 @@ classifiers = [
 readme = "README.md"
 
 [tool.poetry.dependencies]
-python = "^3.6"
-importlib_metadata = { version = "", python = "< 3.8" }
-dataclasses = { version = "", python = "< 3.7" }
-cached-property = ""
+python = "^3.8"
 colorama = ""
 
 

@@ -1,0 +1,38 @@
+cache:
+  paths:
+    - ${CI_PROJECT_DIR}/.cache/pip
+
+## setup poetry and set version using current git version
+.poetry.template:
+  image: python:3.9
+  variables:
+    PIP_CACHE_DIR: ${CI_PROJECT_DIR}/.cache/pip
+  before_script:
+    - pip install poetry
+    - poetry version $(git describe --tags --abbrev=0)
+
+python:build:
+  extends: .poetry.template
+  stage: build
+  script:
+    - poetry build
+  artifacts:
+    paths:
+      - "dist/*"
+
+python:test:
+  extends: .poetry.template
+  stage: test
+  script:
+    - poetry run pytest --cov=helloworld 
+
+python:publish:
+  extends: .poetry.template
+  stage: deploy
+  only:
+    - tags
+  needs:
+    - python:build
+  script:
+    - poetry config repositories.gitlab "${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/pypi"
+    - poetry publish --repository gitlab -u gitlab-ci-token -p "$CI_JOB_TOKEN"
