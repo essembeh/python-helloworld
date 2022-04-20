@@ -1,6 +1,6 @@
 """
 project metadata
 """
-import importlib.metadata as importlib_metadata
+from importlib.metadata import version
 
-__version__ = importlib_metadata.version(__name__)
+__version__ = version(__name__)

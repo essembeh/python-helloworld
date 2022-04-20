@@ -2,14 +2,12 @@ cache:
   paths:
     - ${CI_PROJECT_DIR}/.cache/pip
 
-## setup poetry and set version using current git version
 .poetry.template:
   image: python:3.9
   variables:
     PIP_CACHE_DIR: ${CI_PROJECT_DIR}/.cache/pip
   before_script:
     - pip install poetry
-    - poetry version $(git describe --tags --abbrev=0)
 
 python:build:
   extends: .poetry.template
@@ -24,7 +22,13 @@ python:test:
   extends: .poetry.template
   stage: test
   script:
-    - poetry run pytest --cov=helloworld 
+    - poetry run coverage run -m pytest
+    - poetry run coverage report
+    - poetry run coverage xml
+  artifacts:
+    reports:
+      cobertura: coverage.xml
+
 
 python:publish:
   extends: .poetry.template

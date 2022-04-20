@@ -1,10 +1,13 @@
-import unittest
-
+"""
+tests for user class
+"""
 from helloworld.model import User
 
 
-class TestUser(unittest.TestCase):
-    def test_name(self):
-        u = User("foo")
-        self.assertEqual(u.name, "foo")
-        self.assertEqual(u.name_upper, "FOO")
+def test_user():
+    """
+    just a test
+    """
+    user = User("foo")
+    assert user.name == "foo"
+    assert user.name_upper == "FOO"

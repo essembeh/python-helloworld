@@ -14,7 +14,9 @@ def run():
     entry point
     """
     parser = ArgumentParser(prog="helloworld", description="some documentation here")
-    parser.add_argument("--version", action="version", version=f"version {__version__}")
+    parser.add_argument(
+        "--version", action="version", version=f"%(prog)s {__version__}"
+    )
     parser.add_argument(dest="users", nargs=ONE_OR_MORE, type=User, help="your name")
     args = parser.parse_args()
     for user in args.users:
