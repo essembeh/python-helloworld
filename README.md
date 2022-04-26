@@ -86,11 +86,11 @@ I personnally use this command to bump the version using poetry, create the asso
 
 ```sh
 # for a patch bump
-$ poetry version minor && git commit -a -m '🔖 New release' && git tag -f $(poetry version -s) && git push --tags
+$ poetry version patch && git commit -a -m '🔖 New release' && git tag -f $(poetry version -s) && git push --tags
 # for a minor bump
 $ poetry version minor && git commit -a -m '🔖 New release' && git tag -f $(poetry version -s) && git push --tags
 # for a major bump
-$ poetry version minor && git commit -a -m '🔖 New release' && git tag -f $(poetry version -s) && git push --tags
+$ poetry version major && git commit -a -m '🔖 New release' && git tag -f $(poetry version -s) && git push --tags
 ```
 
 ## Install the app
