@@ -21,3 +21,4 @@ def run():
     args = parser.parse_args()
     for user in args.users:
         print(f"Hello {Fore.YELLOW}{user.name}{Fore.RESET}")
+    exit(0)

@@ -9,6 +9,7 @@ class User:
     """
     just a sample model class
     """
+
     name: str
 
     @property
