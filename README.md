@@ -171,3 +171,73 @@ Install from [PyPI](https://pypi.org/) if you published it
 $ pip3 install cool-project
 $ cool-command --help
 ```
+
+# Start a new project from scratch
+
+```sh
+# create the new project folder
+$ mkdir cool-project && cd cool-project
+
+# create a README
+$ cat << EOF >> README.md
+Here is my cool project
+EOF
+
+# configure excluded files
+$ cat << EOF >> .gitignore
+# Generated files
+__pycache__
+*.pyc
+/.pytest_cache
+/.coverage*
+/dist
+# IDE configuration
+/.vscode/*
+!/.vscode/settings.json
+EOF
+
+# init the root python module
+$ mkdir cool_project
+$ cat << EOF >> cool_project/__init__.py
+from importlib.metadata import version
+
+__version__ = version(__name__)
+EOF
+
+# create the first commit
+$ git init
+$ git add .
+$ git commit -m "🚀 First release"
+
+# init the poetry pyproject.toml
+$ poetry init -n
+
+# configure poetry to create the virtualenv dir in the project folder
+$ cat << EOF >> poetry.toml
+[virtualenvs]
+in-project = true
+EOF
+
+# create the virtualenv
+$ poetry shell
+
+# add some runtime dependencies
+$ poetry add colorama
+
+# add some development dependencies
+$ poetry add --group dev black isort pylint pytest pytest-cov pytest-dotenv
+
+# install your package
+$ poetry install
+
+# test that your app is installed in your virtualenv
+$ python -c 'import cool_project; print(cool_project.__version__)'
+
+```
+
+Snippet to add an _entrypoint_
+
+```toml
+[tool.poetry.scripts]
+mycommand = 'cool_project.cli:run'
+```
