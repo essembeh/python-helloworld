@@ -13,7 +13,7 @@ def run():
     """
     entry point
     """
-    parser = ArgumentParser(prog="helloworld", description="some documentation here")
+    parser = ArgumentParser(description="some documentation here")
     parser.add_argument(
         "--version", action="version", version=f"%(prog)s {__version__}"
     )

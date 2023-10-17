@@ -13,15 +13,16 @@ classifiers = [
 readme = "README.md"
 
 [tool.poetry.dependencies]
-python = "^3.8"
+python = "^3.9"
 colorama = "^0.4.6"
 
-[tool.poetry.dev-dependencies]
-black = "^22.10.0"
-pylint = "^2.15.5"
-pytest = "^7.2.0"
+[tool.poetry.group.dev.dependencies]
+black = "^23.9.1"
+isort = "^5.12.0"
+pylint = "^3.0.1"
+pytest = "^7.4.2"
+pytest-cov = "^4.1.0"
 pytest-dotenv = "^0.5.2"
-pytest-cov = "^4.0.0"
 
 [tool.poetry.scripts]
 helloworld = 'helloworld.cli:run'

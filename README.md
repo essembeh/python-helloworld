@@ -5,50 +5,110 @@
 
 > Note: some badges above might not work unless you use CI (Github or Gitlab) and publish your app on Pypi
 
-# helloworld
+# Introduction
 
-This is just a sample helloworld project which aims to provide some good (at least not so bad) praticies to start a new project.
+This is just a sample _helloworld_ project which aims to provide some good (at least not so bad) praticies to start a new project.
 
 Basically, you can clone this repository and run `sed -i 's/helloworld/YOURPROJECTNAME/g'` ;)
 
-# Typical workflow
+# Tools
 
-> This project uses [Poetry](https://python-poetry.org), ensure you have _Poetry_ installed
+There are multiple good Python IDE, but I'm would suggest using [vscodium](https://vscodium.com/) with at least these plugins:
 
-```sh
-$ pip3 install poetry
+- [Python](https://open-vsx.org/extension/ms-python/python) to add _python_ language support
+- [Pyright](https://open-vsx.org/extension/ms-pyright/pyright) for better python programming
+- [isort](https://open-vsx.org/extension/ms-python/isort) combined with [black](https://github.com/psf/black), your code will always be perfectly formatted
+- [better-toml](https://open-vsx.org/extension/bungcip/better-toml) for a better _TOML_ file support (and poetry configuration file is a _toml_ file)
 
-$ poetry --version
-Poetry version 1.1.12
+[Black](https://pypi.org/project/black/) is a strict code formatter that automatically format source code on save using _VSCodium_.
 
-```
+In the past years, I found [Gitmoji](https://gitmoji.dev/) quite useful to get a more efficient Git history.
+
+[Poetry](https://python-poetry.org) is _THE PERFECT SOLUTION_ to avoid dealing with `setup.py`, `setup.cfg`, `requirements.txt`, `requirements-dev.txt` ... You will handle all common tasks easily:
+
+- `poetry add` to add a new dependencies
+- `poetry install` to create a _virtualenv_ with all needed libraries to run your app
+- `poetry shell` to enter your _virtualenv_ and run your app or tests
+- `poetry build` to create a distributable binary package of your app
+
+# Start your new project
+
+One way to start a project a new Python project is to clone this repository, rename some files and folders and init a new `.git` repository.
 
 ## Clone the project
 
-To clone the project
-
 ```sh
-$ git clone https://github.com/essembeh/python-helloworld
-$ cd python-helloworld
+$ git clone https://github.com/essembeh/python-helloworld cool-project
+$ cd cool-project
 ```
 
-To create the _virtual env_ with all needed dependencies
+## Rename your main python module (the folder that contains the source code)
 
 ```sh
-$ poetry install
-$ poetry shell
-(.venv) $ helloworld --help
+$ mv helloworld cool_project
+```
+
+> Note: python modules cannot contain _dash_, you have to replace `-` with `_`
+
+## Update the project metadata
+
+Edit `pyproject.toml` and change the following lines:
+
+- `name` with your project name (which can contain dash)
+- `description` with a better description
+- `homepage` to point to the homepage of your project
+- `authors` with your name
+- `classifiers` if you want to publish your project, it might be useful to add/remove some [classifiers](https://pypi.org/classifiers/)
+
+## Configure the entrypoint(s)
+
+The `pyproject.toml` file can also contains the _entrypoints_ of your project, which are the new commands you want to get when you install your project.
+
+```toml
+[tool.poetry.scripts]
+cool-command = 'cool_project.cli:run'
+```
+
+Here, I declared a `cool-command` that runs the function `def run():` from my `cli.py` file in my `cool_project` module.
+
+> Note: If you develop a library or you don't have any entrypoint, you should remove the `[tool.poetry.scripts]` section.
+
+## Setup a new Git repository
+
+You can remove the `.git` folder that contains the history of this _helloworld_ project, and initialize a new one
+
+```sh
+$ rm -rf .git
+$ git init .
+
+# you  can also commit your first version
+$ git add .
+$ git commit -m "🚀 First release"
 ```
 
 ## Run the tests
 
-To run the tests
+To run the tests, you need to be in the _virtualenv_
 
 ```sh
-# to run the tests:
-$ poetry run pytest
-# to get the coverage
-$ poetry run pytest
+# init your virtualenv if it is not
+$ poetry install
+
+# enter your virtualenv
+$ poetry shell
+
+# note that your shell prompt is updated once you are in a virtualenv
+(helloworld-py3.10) $ pytest
+====================================== test session starts ======================================
+platform linux -- Python 3.10.13, pytest-7.2.0, pluggy-1.0.0
+rootdir: /home/seb/cool-project
+plugins: dotenv-0.5.2, cov-4.0.0
+collected 3 items
+
+tests/test_cli.py ...                                                                     [ 66%]
+tests/test_user.py .                                                                      [100%]
+
+======================================= 3 passed in 0.07s =======================================
 ```
 
 ## Build your app
@@ -57,14 +117,16 @@ You can use _Poetry_ to build your app and get a `.whl`
 
 ```sh
 $ poetry build
-Building helloworld (0.1.0)
+Building cool-project (0.1.0)
   - Building sdist
-  - Built helloworld-0.1.0.tar.gz
+  - Built cool_project-0.1.0.tar.gz
   - Building wheel
-  - Built helloworld-0.1.0-py3-none-any.whl
+  - Built cool_project-0.1.0-py3-none-any.whl
 
-$ ls dist
-helloworld-0.1.0-py3-none-any.whl  helloworld-0.1.0.tar.gz
+$ ls -l dist
+total 20
+-rw-r--r-- 1 seb users 8569 17 oct.  11:12 cool_project-0.1.0-py3-none-any.whl
+-rw-r--r-- 1 seb users 7484 17 oct.  11:12 cool_project-0.1.0.tar.gz
 ```
 
 ## Publish your app
@@ -93,32 +155,19 @@ $ poetry version minor && git commit -a -m '🔖 New release' && git tag -f $(po
 $ poetry version major && git commit -a -m '🔖 New release' && git tag -f $(poetry version -s) && git push --tags
 ```
 
-## Install the app
+## How to install your app
 
 Install from the sources
 
 ```sh
 $ pip3 install poetry
-$ pip3 install git+https://github.com/essembeh/python-helloworld
-$ helloworld --help
+$ pip3 install git+https://github.com/jdoe/cool-project
+$ cool-command --help
 ```
 
-Install the latest release from [PyPI](https://pypi.org/python-helloworld)
+Install from [PyPI](https://pypi.org/) if you published it
 
 ```sh
-$ pip3 install python-helloworld
-$ helloworld --help
+$ pip3 install cool-project
+$ cool-command --help
 ```
-
-# Tools
-
-[Poetry](https://python-poetry.org), a very useful tool to avoid boilerplate code (`setup.py`, `requirements.txt`, `requirements-dev.txt` ...)
-
-[VSCodium](https://github.com/VSCodium/vscodium): a light IDE editor supporting Python with an extension.
-Some workspace settings in `.vscode/settings.json` are configured for example to work with the _virtual environment_.
-
-[Pylint](https://www.pylint.org/): to report many warnings/errors (and VSCodium is configured to show them).
-
-[Black](https://pypi.org/project/black/): a strict code formatter that automatically format source code on save using _VSCodium_.
-
-[Gitmoji](https://gitmoji.dev/): a list of emoji to get a more efficient history

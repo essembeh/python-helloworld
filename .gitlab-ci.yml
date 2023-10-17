@@ -3,7 +3,7 @@ cache:
     - ${CI_PROJECT_DIR}/.cache/pip
 
 .poetry.template:
-  image: python:3.9
+  image: python:3
   variables:
     PIP_CACHE_DIR: ${CI_PROJECT_DIR}/.cache/pip
   before_script:
